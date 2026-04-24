@@ -8,6 +8,7 @@ export default function SignupPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [confirmationSent, setConfirmationSent] = useState(false)
   const [form, setForm] = useState({ full_name: '', email: '', password: '', phone: '' })
 
   async function handleSubmit(e: React.FormEvent) {
@@ -16,7 +17,7 @@ export default function SignupPage() {
     setLoading(true)
 
     const supabase = createClient()
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: {
@@ -31,7 +32,29 @@ export default function SignupPage() {
       return
     }
 
-    router.push('/dashboard')
+    if (data.session) {
+      router.push('/dashboard')
+    } else {
+      setConfirmationSent(true)
+      setLoading(false)
+    }
+  }
+
+  if (confirmationSent) {
+    return (
+      <div style={{ width: '100%', maxWidth: 460 }}>
+        <div style={{ background: 'white', border: '1px solid var(--line)', borderRadius: 18, padding: 40, boxShadow: 'var(--shadow-md)', textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>📬</div>
+          <h1 style={{ fontSize: 24, letterSpacing: '-0.03em', marginBottom: 8 }}>Check your inbox</h1>
+          <p style={{ color: 'var(--ink-70)', fontSize: 15, lineHeight: 1.6, marginBottom: 8 }}>
+            We sent a confirmation link to <strong>{form.email}</strong>.
+          </p>
+          <p style={{ color: 'var(--ink-50)', fontSize: 14 }}>
+            Click the link in that email to activate your account and log in.
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (

@@ -1,41 +1,45 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
-export default function LoginPage() {
+export default function UpdatePasswordPage() {
   const router = useRouter()
+  const [form, setForm] = useState({ password: '', confirm: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [form, setForm] = useState({ email: '', password: '' })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
+
+    if (form.password !== form.confirm) {
+      setError('Passwords do not match.')
+      return
+    }
+    if (form.password.length < 8) {
+      setError('Password must be at least 8 characters.')
+      return
+    }
+
     setLoading(true)
-
     const supabase = createClient()
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: form.email,
-      password: form.password,
-    })
+    const { error: updateError } = await supabase.auth.updateUser({ password: form.password })
 
-    if (signInError) {
-      setError(signInError.message)
+    if (updateError) {
+      setError(updateError.message)
       setLoading(false)
       return
     }
 
     router.push('/dashboard')
-    router.refresh()
   }
 
   return (
     <div style={{ width: '100%', maxWidth: 420 }}>
       <div style={{ background: 'white', border: '1px solid var(--line)', borderRadius: 18, padding: 40, boxShadow: 'var(--shadow-md)' }}>
-        <h1 style={{ fontSize: 28, letterSpacing: '-0.03em', marginBottom: 8 }}>Welcome back</h1>
-        <p style={{ color: 'var(--ink-70)', fontSize: 15, marginBottom: 28 }}>Log in to your ListingAssistant dashboard.</p>
+        <h1 style={{ fontSize: 26, letterSpacing: '-0.03em', marginBottom: 8 }}>Set new password</h1>
+        <p style={{ color: 'var(--ink-70)', fontSize: 15, marginBottom: 28 }}>Choose a new password for your account.</p>
 
         {error && (
           <div style={{ background: '#FEF2F2', border: '1px solid #FECACA', borderRadius: 8, padding: '12px 16px', marginBottom: 20, color: '#DC2626', fontSize: 14 }}>
@@ -45,21 +49,20 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <label htmlFor="email" style={labelStyle}>Email</label>
-            <input id="email" type="email" placeholder="jane@brokerage.com" value={form.email} required
-              onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+            <label htmlFor="password" style={labelStyle}>New password</label>
+            <input
+              id="password" type="password" placeholder="8+ characters" value={form.password} required
+              onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
               style={inputStyle}
               onFocus={e => { e.target.style.borderColor = 'var(--navy-700)'; e.target.style.boxShadow = '0 0 0 3px rgba(27,58,107,.12)' }}
               onBlur={e => { e.target.style.borderColor = 'var(--line-2)'; e.target.style.boxShadow = 'none' }}
             />
           </div>
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-              <label htmlFor="password" style={{ ...labelStyle, marginBottom: 0 }}>Password</label>
-              <Link href="/forgot-password" style={{ fontSize: 12, color: 'var(--ink-50)', textDecoration: 'none' }}>Forgot password?</Link>
-            </div>
-            <input id="password" type="password" placeholder="••••••••" value={form.password} required
-              onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
+            <label htmlFor="confirm" style={labelStyle}>Confirm password</label>
+            <input
+              id="confirm" type="password" placeholder="Repeat your new password" value={form.confirm} required
+              onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))}
               style={inputStyle}
               onFocus={e => { e.target.style.borderColor = 'var(--navy-700)'; e.target.style.boxShadow = '0 0 0 3px rgba(27,58,107,.12)' }}
               onBlur={e => { e.target.style.borderColor = 'var(--line-2)'; e.target.style.boxShadow = 'none' }}
@@ -71,14 +74,9 @@ export default function LoginPage() {
             borderRadius: 8, fontWeight: 500, fontSize: 15, border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
             opacity: loading ? 0.7 : 1, transition: 'opacity .15s',
           }}>
-            {loading ? 'Logging in…' : 'Log in →'}
+            {loading ? 'Updating…' : 'Update password →'}
           </button>
         </form>
-
-        <p style={{ textAlign: 'center', marginTop: 20, color: 'var(--ink-50)', fontSize: 14 }}>
-          Don't have an account?{' '}
-          <Link href="/signup" style={{ color: 'var(--navy)', fontWeight: 500 }}>Sign up free</Link>
-        </p>
       </div>
     </div>
   )

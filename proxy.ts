@@ -24,7 +24,7 @@ export async function proxy(req: NextRequest) {
 
   const pathname = req.nextUrl.pathname
   const isDashboard = pathname.startsWith('/dashboard')
-  const isAuthPage = pathname === '/login' || pathname === '/signup'
+  const isAuthPage = pathname === '/login' || pathname === '/signup' || pathname === '/forgot-password'
 
   if (isDashboard && !user) {
     return NextResponse.redirect(new URL('/login', req.url))
@@ -38,5 +38,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
+  matcher: ['/dashboard/:path*', '/login', '/signup', '/forgot-password'],
 }

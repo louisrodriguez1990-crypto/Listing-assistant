@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import LeadsTable from '@/components/dashboard/LeadsTable'
 import SubscriptionGate from '@/components/dashboard/SubscriptionGate'
+import WebhookCard from '@/components/dashboard/WebhookCard'
 
 export const dynamic = 'force-dynamic'
 
@@ -59,18 +60,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <SubscriptionGate />
       ) : (
         <>
-          {/* Webhook info */}
-          <div style={{ background: 'var(--navy-50)', border: '1px solid var(--navy-100)', borderRadius: 12, padding: '20px 24px', marginBottom: 24 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 8 }}>Your Lead Intake Webhook</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <code style={{ fontFamily: '"JetBrains Mono"', fontSize: 12, background: 'white', padding: '8px 12px', borderRadius: 6, border: '1px solid var(--line)', color: 'var(--ink)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {process.env.NEXT_PUBLIC_APP_URL}/api/leads/webhook?token={token?.token ?? '...'}
-              </code>
-            </div>
-            <p style={{ fontSize: 12, color: 'var(--ink-50)', marginTop: 8 }}>
-              POST JSON with: <code style={{ fontFamily: '"JetBrains Mono"', background: 'rgba(0,0,0,.05)', padding: '1px 4px', borderRadius: 3 }}>name, email, phone, property_interest, source</code>
-            </p>
-          </div>
+          <WebhookCard token={token?.token ?? ''} />
 
           <LeadsTable leads={leads ?? []} />
         </>
