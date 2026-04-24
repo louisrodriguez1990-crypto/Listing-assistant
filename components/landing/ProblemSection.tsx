@@ -1,7 +1,7 @@
 export default function ProblemSection() {
   return (
     <section id="problem" style={{ background: 'white', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', padding: '112px 0' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 28px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }} className="problem-grid">
+      <div className="container problem-grid">
         <div className="reveal">
           <div style={{ fontFamily: '"JetBrains Mono"', fontSize: 12, color: 'var(--orange-600)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 500, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ display: 'block', width: 18, height: 1, background: 'var(--orange)' }} />
@@ -14,7 +14,7 @@ export default function ProblemSection() {
             78% of home buyers work with the first agent who calls them back. But between showings, paperwork, and open houses, you can't reply in the first 5 minutes — and that's where deals die.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 40, borderTop: '1px solid var(--line)' }}>
+          <div className="stat-row">
             {[
               { num: '78%', label: 'of leads go with the first agent who replies' },
               { num: '5min', label: 'response window before the lead goes cold' },

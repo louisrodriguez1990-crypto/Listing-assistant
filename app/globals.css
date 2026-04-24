@@ -51,43 +51,123 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
 
+/* ─── Animations ──────────────────────────────────────────── */
 @keyframes pulse-dot {
   0%, 100% { box-shadow: 0 0 0 0 rgba(245,130,10,.5); }
-  50% { box-shadow: 0 0 0 6px rgba(245,130,10,0); }
+  50%       { box-shadow: 0 0 0 6px rgba(245,130,10,0); }
 }
-
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
+  to   { opacity: 1; transform: none; }
 }
-
 @keyframes scaleIn {
   from { transform: scale(0); }
-  to { transform: scale(1); }
+  to   { transform: scale(1); }
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity .6s ease, transform .6s ease;
-}
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
+/* ─── Reveal on scroll ────────────────────────────────────── */
+.reveal    { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
 
+/* ─── Dashboard status badges ─────────────────────────────── */
 .status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
-  font-family: "JetBrains Mono", monospace;
-  letter-spacing: 0.04em;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 500;
+  font-family: "JetBrains Mono", monospace; letter-spacing: 0.04em;
 }
-.status-new { background: var(--orange-50); color: var(--orange-600); }
-.status-contacted { background: #E6F4EC; color: var(--ok); }
-.status-reminder_sent { background: var(--navy-50); color: var(--navy); }
-.status-closed { background: #F0F0F0; color: var(--ink-50); }
+.status-new          { background: var(--orange-50);  color: var(--orange-600); }
+.status-contacted    { background: #E6F4EC;            color: var(--ok); }
+.status-reminder_sent { background: var(--navy-50);   color: var(--navy); }
+.status-closed       { background: #F0F0F0;            color: var(--ink-50); }
+
+/* ─── Shared layout helpers ───────────────────────────────── */
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.hero-section { padding: 80px 0 120px; }
+
+/* ─── Responsive landing grids ────────────────────────────── */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+.hero-visual { position: relative; min-height: 500px; }
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.how-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+.steps::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 33.33%;
+  right: 33.33%;
+  height: 1px;
+  border-top: 1px dashed var(--line-2);
+  z-index: 0;
+}
+
+/* ─── Nav visibility ──────────────────────────────────────── */
+.hide-mobile { display: flex; }
+.hide-login  { display: inline-flex; }
+
+/* ─── ≤960px: collapse two-column grids ──────────────────── */
+@media (max-width: 960px) {
+  .hero-grid    { grid-template-columns: 1fr; gap: 40px; }
+  .problem-grid { grid-template-columns: 1fr; gap: 48px; }
+  .how-head     { grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px; }
+  .steps        { grid-template-columns: 1fr; }
+  .steps::before { display: none; }
+}
+
+/* ─── ≤720px: mobile — hide nav, tighten spacing ─────────── */
+@media (max-width: 720px) {
+  .hide-mobile  { display: none !important; }
+  .container    { padding: 0 20px; }
+  .hero-section { padding: 56px 0 72px; }
+  .stat-row     { grid-template-columns: 1fr 1fr; }
+}
+
+/* ─── ≤640px: small mobile — hide hero visual entirely ────── */
+@media (max-width: 640px) {
+  .hero-visual { display: none; }
+}
+
+/* ─── ≤480px: very small — collapse stats, hide log-in link ─ */
+@media (max-width: 480px) {
+  .stat-row   { grid-template-columns: 1fr; }
+  .hide-login { display: none !important; }
+}

@@ -45,7 +45,7 @@ export default function Header() {
         </nav>
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <Link href="/login" style={{ color: 'var(--ink-70)', fontSize: 14, fontWeight: 500, padding: '10px 14px' }}>Log in</Link>
+          <Link href="/login" className="hide-login" style={{ color: 'var(--ink-70)', fontSize: 14, fontWeight: 500, padding: '10px 14px' }}>Log in</Link>
           <Link href="/signup" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 18px',
             background: 'var(--navy)', color: 'white', borderRadius: 8,

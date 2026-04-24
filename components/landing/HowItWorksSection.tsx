@@ -1,8 +1,8 @@
 export default function HowItWorksSection() {
   return (
     <section id="how" style={{ padding: '112px 0' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 28px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'end', marginBottom: 64 }} className="how-head">
+      <div className="container">
+        <div className="how-head">
           <div>
             <div style={{ fontFamily: '"JetBrains Mono"', fontSize: 12, color: 'var(--orange-600)', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 500, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ display: 'block', width: 18, height: 1, background: 'var(--orange)' }} />
@@ -15,9 +15,8 @@ export default function HowItWorksSection() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, position: 'relative' }}>
-          {/* Connector */}
-          <div style={{ position: 'absolute', top: 60, left: '33.33%', right: '33.33%', height: 1, borderTop: '1px dashed var(--line-2)', zIndex: 0 }} />
+        <div className="steps">
+          {/* Connector — rendered via .steps::before in CSS */}
 
           {/* Step 1 */}
           <div className="reveal" style={{ background: 'white', border: '1px solid var(--line)', borderRadius: 18, padding: 28, position: 'relative', overflow: 'hidden', transition: 'transform .2s, box-shadow .2s' }}>
