@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Next.js Dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:\\Users\\Shadow\\Desktop\\listing-assistant", "run", "dev"],
+      "port": 3000
+    }
+  ]
+}

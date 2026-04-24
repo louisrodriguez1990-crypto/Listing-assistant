@@ -1,0 +1,19 @@
+{
+  "crons": [
+    {
+      "path": "/api/reminders",
+      "schedule": "*/15 * * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/stripe/webhook",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ]
+}
