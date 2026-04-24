@@ -175,7 +175,6 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
                       </td>
                     </tr>
                   )}
-                </>
                 </React.Fragment>
               )
             })}
